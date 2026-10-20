@@ -1,0 +1,252 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>flink-common-parent</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>flink-common-shared</module>
+        <module>flink-common-1-shared</module>
+        <module>flink-common-1.16-parent</module>
+        <module>flink-common-1.19-parent</module>
+        <module>flink-common-2.1-parent</module>
+    </modules>
+
+    <properties>
+
+        <!-- Injectable -->
+        <revision>0.0.0</revision>
+
+        <!-- Project General -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Kotlin -->
+        <kotlin.version>2.1.10</kotlin.version>
+        <kotlin.code.style>official</kotlin.code.style>
+
+        <!-- Spring -->
+        <spring.boot.version>3.4.4</spring.boot.version>
+
+        <!-- Jackson -->
+        <jackson.version>2.15.3</jackson.version>
+        
+        <!-- Flink (overridden by version-specific parents) -->
+        <flink.version>2.1.0</flink.version>
+        <flink.kafka.version>4.0.1-2.0</flink.kafka.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            
+            <!-- Kotlin -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-bom</artifactId>
+                <version>${kotlin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.microutils</groupId>
+                <artifactId>kotlin-logging-jvm</artifactId>
+                <version>3.0.5</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-stdlib-common</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Spring -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring.boot.version}</version>
+                <optional>true</optional>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Flink -->
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-streaming-java</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-clients</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-connector-base</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-connector-kafka</artifactId>
+                <version>${flink.kafka.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <!-- Kotlin -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.microutils</groupId>
+            <artifactId>kotlin-logging-jvm</artifactId>
+        </dependency>
+
+        <!-- Flink -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-streaming-java</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <pluginManagement>
+            <plugins>
+
+                <!-- Kotlin -->
+                <plugin>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-maven-plugin</artifactId>
+                    <version>${kotlin.version}</version>
+                    <configuration>
+                        <jvmTarget>${maven.compiler.target}</jvmTarget>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>compile</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>test-compile</id>
+                            <phase>test-compile</phase>
+                            <goals>
+                                <goal>test-compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.github.ozsie</groupId>
+                    <artifactId>detekt-maven-plugin</artifactId>
+                    <version>1.23.3</version>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <config>${project.basedir}/../../flink-common-shared/config/detekt.yml</config>
+                    </configuration>
+                </plugin>
+
+                <!-- Spring -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

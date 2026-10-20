@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>flink-common-1.19-parent</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>flink-common-core-1.19</artifactId>
+
+    <build>
+       <plugins>
+        
+            <!-- Kotlin -->
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <configuration>
+                    <sourceDirs>
+                        <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+                        <sourceDir>${project.basedir}/../../flink-common-1-shared/core/src/main/kotlin</sourceDir>
+                        <sourceDir>${project.basedir}/../../flink-common-shared/core/src/main/kotlin</sourceDir>
+                    </sourceDirs>
+                </configuration>
+            </plugin>
+
+            <!-- Checkstyle -->
+            <plugin>
+                <groupId>com.github.ozsie</groupId>
+                <artifactId>detekt-maven-plugin</artifactId>
+                <configuration>
+                    <input>${project.basedir}/src,${project.basedir}/../../flink-common-1-shared/core/src,${project.basedir}/../../flink-common-shared/core/src</input>
+                </configuration>
+            </plugin>
+
+       </plugins>
+    </build>
+
+</project>
