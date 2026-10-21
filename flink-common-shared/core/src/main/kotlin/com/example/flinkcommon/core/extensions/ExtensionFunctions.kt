@@ -73,7 +73,7 @@ inline fun <reified T> DataStream<T>.filterNonNull(
         .returns(T::class.java)
 }
 
-inline fun <T, reifed R> DataStream<T>.map(
+inline fun <T, reified R> DataStream<T>.map(
     operatorName: String,
     operatorUid: String,
     mapper: MapFunction<T, R>
@@ -83,7 +83,7 @@ inline fun <T, reifed R> DataStream<T>.map(
         .title(operatorName, operatorUid)
 }
 
-inline fun <T, reifed R> DataStream<T>.map(
+inline fun <T, reified R> DataStream<T>.map(
     operatorName: String,
     mapper: MapFunction<T, R>
 ): SingleOutputStreamOperator<R> {
@@ -153,7 +153,7 @@ inline fun <reified T> DataStream<T>.tag(
     operatorName: String,
     operatorUid: String,
     crossinline tagSelector: (T) -> OutputTag<T>
-): SingleOutputStreamOperator<R> {
+): SingleOutputStreamOperator<T> {
     return this
         .process(
             object : ProcessFunction<T, T>() {
@@ -168,7 +168,7 @@ inline fun <reified T> DataStream<T>.tag(
 inline fun <reified T> DataStream<T>.tag(
     operatorName: String,
     crossinline tagSelector: (T) -> OutputTag<T>
-): SingleOutputStreamOperator<R> {
+): SingleOutputStreamOperator<T> {
     return this
         .process(
             object : ProcessFunction<T, T>() {

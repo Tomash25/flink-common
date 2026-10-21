@@ -8,8 +8,8 @@ import com.example.flinkcommon.core.serialization.ObjectMapperSerializationSchem
 class ObjectMapperSerializationSchemaFactory(
     private val objectMapperFactory: ObjectMapperFactory
 ) : SerializationSchemaFactory, DeserializationSchemaFactory {
-    override fun <T> create(): = ObjectMapperSerializationSchema(objectMapperFactory)
+    override fun <T> create(): SerializationSchema<T> = ObjectMapperSerializationSchema(objectMapperFactory)
 
-    override fun <T> create(clazz: Class<T>) =
+    override fun <T> create(clazz: Class<T>): DeserializationSchema<T> =
         ObjectMapperDeserializationSchema(clazz, objectMapperFactory)
 }

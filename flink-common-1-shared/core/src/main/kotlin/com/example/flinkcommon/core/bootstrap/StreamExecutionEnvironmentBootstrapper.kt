@@ -15,7 +15,7 @@ class StreamExecutionEnvironmentBootstrapper {
     private fun StreamExecutionEnvironment.configureCheckpointing(
         properties: StreamExecutionEnvironmentProperties.CheckpointingProperties
     ) {
-        this.checkpointing.apply {
+        this.checkpointConfig.apply {
             this.checkpointInterval = properties.interval.toMillis()
             this.checkpointingMode = properties.mode
             this.minPauseBetweenCheckpoints = properties.minPauseBetweenCp.toMillis()
