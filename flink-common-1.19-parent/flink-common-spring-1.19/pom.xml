@@ -60,6 +60,7 @@
                 <configuration>
                     <sourceDirs>
                         <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+                        <sourceDir>${project.basedir}/../../flink-common-shared/core/src/main/kotlin</sourceDir>
                         <sourceDir>${project.basedir}/../../flink-common-shared/spring/src/main/kotlin</sourceDir>
                     </sourceDirs>
                     <compilerPlugins>

@@ -17,7 +17,7 @@ class GenericSourceInflator(
 
     @Suppress("UNCHECKED_CAST")
     private inline fun <reified T, R> inflate(properties: T, recordClass: Class<R>): Source<R, *, *> {
-        return (this.sourceInflatorRegistry.retrieve(properties::class.java) as SourceInflator<T>)
+        return (this.sourceInflatorRegistry.retrieve(properties!!::class.java) as SourceInflator<T>)
             .inflate(properties, recordClass)
     }
 }

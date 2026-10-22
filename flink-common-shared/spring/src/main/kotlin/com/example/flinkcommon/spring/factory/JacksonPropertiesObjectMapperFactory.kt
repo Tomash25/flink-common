@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat
 class JacksonPropertiesObjectMapperFactory(
     jacksonProperties: JacksonProperties
 ) : ObjectMapperFactory {
-    private val deserializationFeatures: Map<DeserializationFeature?, Boolean?> = jacksonProperties.deserialzation
+    private val deserializationFeatures: Map<DeserializationFeature?, Boolean?> = jacksonProperties.deserialization
     private val serializationFeatures: Map<SerializationFeature?, Boolean?> = jacksonProperties.serialization
     private val jsonParserFeatures: Map<JsonParser.Feature?, Boolean?> = jacksonProperties.parser
     private val defaultPropertyInclusion: JsonInclude.Include? = jacksonProperties.defaultPropertyInclusion

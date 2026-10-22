@@ -17,7 +17,7 @@ class GenericSinkInflator(
 
     @Suppress("UNCHECKED_CAST")
     private inline fun <reified T, R> inflate(properties: T, recordClass: Class<R>): Sink<R> {
-        return (this.sinkInflatorRegistry.retrieve(properties::class.java) as SinkInflator<T>)
+        return (this.sinkInflatorRegistry.retrieve(properties!!::class.java) as SinkInflator<T>)
             .inflate(properties, recordClass)
     }
 }
