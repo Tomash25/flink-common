@@ -7,11 +7,13 @@ import org.apache.flink.api.common.serialization.SerializationSchema
 import com.example.flinkcommon.core.serialization.factory.ObjectMapperFactory
 import java.io.Serializable
 
-private val log = KotlinLogging.logger { }
-
 class ObjectMapperSerializationSchema<T>(
     private val objectMapperFactory: ObjectMapperFactory,
 ) : SerializationSchema<T>, Serializable {
+    companion object {
+        private val log = KotlinLogging.logger { }
+    }
+
     private lateinit var objectMapper: ObjectMapper
 
     override fun open(context: SerializationSchema.InitializationContext?) {
