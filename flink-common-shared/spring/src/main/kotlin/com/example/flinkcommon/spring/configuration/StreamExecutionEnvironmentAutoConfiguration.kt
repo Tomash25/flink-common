@@ -4,13 +4,11 @@ import com.example.flinkcommon.core.bootstrap.StreamExecutionEnvironmentBootstra
 import com.example.flinkcommon.spring.configuration.properties.FlinkProperties
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import org.springframework.boot.autoconfigure.AutoConfiguration
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 
 @AutoConfiguration
-@ConditionalOnClass(StreamExecutionEnvironmentBootstrapper::class)
 @EnableConfigurationProperties(FlinkProperties::class)
 class StreamExecutionEnvironmentAutoConfiguration(
     private val properties: FlinkProperties
