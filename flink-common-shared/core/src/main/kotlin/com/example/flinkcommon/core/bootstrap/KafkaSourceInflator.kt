@@ -6,6 +6,7 @@ import org.apache.flink.api.connector.source.Source
 import com.example.flinkcommon.core.models.KafkaSourceProperties
 import com.example.flinkcommon.core.serialization.factory.DeserializationSchemaFactory
 
+@Connector(configurationPrefix = "kafka")
 class KafkaSourceInflator(
     private val deserializationSchemaFactory: DeserializationSchemaFactory
 ) : SourceInflator<KafkaSourceProperties> {

@@ -6,6 +6,7 @@ import org.apache.flink.api.connector.sink2.Sink
 import org.apache.flink.connector.kafka.sink.KafkaSink
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema
 
+@Connector(configurationPrefix = "kafka")
 class KafkaSinkInflator(
     private val serializationSchemaFactory: SerializationSchemaFactory
 ) : SinkInflator<KafkaSinkProperties> {
