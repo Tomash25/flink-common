@@ -1,0 +1,3 @@
+com.example.flinkcommon.spring.configuration.ConnectorInflatorsAutoConfiguration
+com.example.flinkcommon.spring.configuration.SerializationSchemaAutoConfiguration
+com.example.flinkcommon.spring.configuration.StreamExecutionEnvironmentAutoConfiguration
