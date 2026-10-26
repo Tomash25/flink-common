@@ -7,21 +7,20 @@ import java.nio.file.Paths
 import javax.annotation.processing.ProcessingEnvironment
 import javax.tools.StandardLocation
 
-internal data class MetadataGroup(
-    val name: String,
-    val type: String,
-    val sourceType: String
-)
-
-internal data class MetadataProperty(
-    val name: String,
-    val type: String,
-    val sourceType: String
-)
-
 internal object ConfigurationMetadataStore {
     private const val ADDITIONAL_METADATA_RESOURCE = "META-INF/additional-spring-configuration-metadata.json"
-    private const val CONNECTORS_INDEX_RESOURCE = "META-INF/flink-common/connectors.idx"
+
+    internal data class MetadataGroup(
+        val name: String,
+        val type: String,
+        val sourceType: String
+    )
+
+    internal data class MetadataProperty(
+        val name: String,
+        val type: String,
+        val sourceType: String
+    )
 
     fun writeAdditionalMetadata(
         processingEnv: ProcessingEnvironment,
@@ -36,49 +35,6 @@ internal object ConfigurationMetadataStore {
         for (path in outputPaths) {
             writeToFile(path, json)
         }
-    }
-
-    fun writeConnectorsIndex(
-        processingEnv: ProcessingEnvironment,
-        connectorClassNames: Set<String>
-    ) {
-        if (connectorClassNames.isEmpty()) {
-            return
-        }
-        val path = resolveResourcePath(processingEnv, StandardLocation.CLASS_OUTPUT, CONNECTORS_INDEX_RESOURCE)
-        if (path != null) {
-            val content = connectorClassNames.sorted().joinToString("\n") + "\n"
-            writeToFile(path, content)
-        }
-    }
-
-    @Suppress("TooGenericExceptionCaught")
-    fun readIndexedConnectors(processingEnv: ProcessingEnvironment): Set<String> {
-        val result = mutableSetOf<String>()
-        try {
-            val urls = ConfigurationMetadataStore::class.java.classLoader
-                ?.getResources(CONNECTORS_INDEX_RESOURCE)
-            while (urls != null && urls.hasMoreElements()) {
-                urls.nextElement().openStream().bufferedReader(StandardCharsets.UTF_8).useLines { lines ->
-                    lines.map { it.trim() }.filter { it.isNotEmpty() }.forEach { result.add(it) }
-                }
-            }
-        } catch (_: Exception) {
-            // Ignore classloader lookup errors
-        }
-        try {
-            val fileObject = processingEnv.filer.getResource(
-                StandardLocation.CLASS_PATH,
-                "",
-                CONNECTORS_INDEX_RESOURCE
-            )
-            fileObject.openInputStream().bufferedReader(StandardCharsets.UTF_8).useLines { lines ->
-                lines.map { it.trim() }.filter { it.isNotEmpty() }.forEach { result.add(it) }
-            }
-        } catch (_: Exception) {
-            // Ignore compiler classpath lookup errors when resource is absent
-        }
-        return result
     }
 
     private fun resolveOutputPaths(processingEnv: ProcessingEnvironment): Set<Path> {
