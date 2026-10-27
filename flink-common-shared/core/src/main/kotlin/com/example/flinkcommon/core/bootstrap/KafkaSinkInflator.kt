@@ -10,7 +10,7 @@ import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema
 class KafkaSinkInflator(
     private val serializationSchemaFactory: SerializationSchemaFactory
 ) : SinkInflator<KafkaSinkProperties> {
-    override fun <R> inflate(properties: KafkaSinkProperties, clazz: Class<R>): Sink<R> {
+    override fun <R> inflateSink(properties: KafkaSinkProperties, clazz: Class<R>): Sink<R> {
         return KafkaSink.builder<R>()
             .setBootstrapServers(properties.brokers.joinToString(","))
             .setRecordSerializer(

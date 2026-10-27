@@ -10,7 +10,7 @@ import com.example.flinkcommon.core.serialization.factory.DeserializationSchemaF
 class KafkaSourceInflator(
     private val deserializationSchemaFactory: DeserializationSchemaFactory
 ) : SourceInflator<KafkaSourceProperties> {
-    override fun <R> inflate(
+    override fun <R> inflateSource(
         properties: KafkaSourceProperties,
         clazz: Class<R>
     ): Source<R, *, *> {

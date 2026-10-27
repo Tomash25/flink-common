@@ -76,7 +76,7 @@ class GenericConnectorBindHandler(
             )
 
             if (result.isBound) {
-                return (inflator as SourceInflator<Any>).inflate(result.get(), recordClass)
+                return (inflator as SourceInflator<Any>).inflateSource(result.get(), recordClass)
             }
         }
 
@@ -101,7 +101,7 @@ class GenericConnectorBindHandler(
             )
 
             if (result.isBound) {
-                return (inflator as SinkInflator<Any>).inflate(result.get(), recordClass)
+                return (inflator as SinkInflator<Any>).inflateSink(result.get(), recordClass)
             }
         }
 
